@@ -49,6 +49,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     const foodCollections = client.db("foodStore").collection("food");
+    const subscribeCollections = client.db("foodStore").collection("subscribe");
     const requestedFoodCollections = client
       .db("foodStore")
       .collection("requestedFood");
@@ -189,6 +190,11 @@ async function run() {
     app.post("/request-food", async (req, res) => {
       const requestedFood = req.body;
       const result = await requestedFoodCollections.insertOne(requestedFood);
+      res.send(result);
+    });
+    app.post('/subscribe', async (req, res) => {
+      const email = req.body;
+      const result = await subscribeCollections.insertOne(email);
       res.send(result);
     });
     // Send a ping to confirm a successful connection
